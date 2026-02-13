@@ -1,6 +1,6 @@
 # https://github.com/actions/deploy-pages#usage
 name: Deploy to GitHub Pages
-"on":
+on:
   workflow_dispatch:
   push:
     branches:
