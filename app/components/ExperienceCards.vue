@@ -19,6 +19,10 @@
 
 <script setup>
 import { computed } from 'vue';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const props = defineProps({
   title: {
@@ -41,6 +45,24 @@ const groupedCards = computed(() => {
     groups[category].push(card);
   }
   return groups;
+});
+
+onMounted(() => {
+  gsap.utils.toArray('.experience-cards__grid').forEach((grid) => {
+    const cards = grid.querySelectorAll('.experience-card');
+    gsap.from(cards, {
+      y: 40,
+      autoAlpha: 0,
+      duration: 0.3,
+      ease: 'back.out(1.4)',
+      stagger: 0.15,
+      scrollTrigger: {
+        trigger: grid,
+        start: 'top 95%',
+        toggleActions: 'play none none none',
+      },
+    });
+  });
 });
 </script>
 
@@ -68,6 +90,7 @@ const groupedCards = computed(() => {
 
 .experience-card {
     @apply flex flex-col justify-start items-center text-center;
+    visibility: hidden;
     /*flex: 0 0 175px;*/
 
     .experience-card__image {

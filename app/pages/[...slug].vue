@@ -4,6 +4,10 @@ const { data: page } = await useAsyncData(route.path, () => {
   return queryCollection('content').path(route.path).first()
 })
 
+if (!page.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+}
+
 definePageMeta({
   layout: 'default',
 })
@@ -17,9 +21,5 @@ useSeoMeta({
 <template>
     <AppProse>
         <ContentRenderer v-if="page" :value="page"  />
-        <div v-else>
-            <h1><span class="text-orange">404</span> Page not found</h1>
-            <p>Sorry, the page you are looking for does not exist.</p>
-        </div>
     </AppProse>
 </template>

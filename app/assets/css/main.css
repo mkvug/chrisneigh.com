@@ -81,3 +81,13 @@ body > div#__nuxt {
 .text-green {
     color: var(--color-green);
 }
+
+.error-404-page {
+    background-image: url('/images/jeremy-perkins-uhjiu8FjnsQ-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+
+    header h1 {
+        color: var(--color-white);
+    }
+}
