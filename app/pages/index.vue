@@ -15,3 +15,9 @@ useSeoMeta({
     <ContentRenderer v-if="home" :value="home"  />
     <div v-else>Home not found</div>
 </template>
+
+<style scoped>
+:deep(header) {
+    @apply my-0 md:my-8;
+}
+</style>

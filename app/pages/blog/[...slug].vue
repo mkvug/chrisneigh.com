@@ -18,6 +18,7 @@ function formatDate(date) {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'UTC',
   })
 }
 </script>
@@ -88,5 +89,16 @@ function formatDate(date) {
 
 .blog-post__hero {
   @apply w-full rounded-lg mb-8;
+}
+
+:deep(.prose) {
+    a {
+        color: var(--color-blue);
+        font-weight: 600;
+        text-decoration: underline;
+    }
+    h2,h3,h4,h5,h6 {
+        @apply capitalize;
+    }
 }
 </style>
