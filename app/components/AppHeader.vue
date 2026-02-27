@@ -1,20 +1,31 @@
 <template>
   <header ref="header" :class="{ scrolled }">
-      <span class="logo">
+      <NuxtLink v-if="route.path !== '/'" to="/" class="logo">
+          <i c></i>
+          <i n></i>
+          <h1>ChrisNeigh</h1>
+      </NuxtLink>
+      <span v-else class="logo">
           <i c></i>
           <i n></i>
           <h1>ChrisNeigh</h1>
       </span>
-      <!-- <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about">About</RouterLink>
-      </nav> -->
+      <button class="hamburger md:hidden" :class="{ open: menuOpen }" @click="menuOpen = !menuOpen" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+      </button>
+      <nav :class="{ open: menuOpen }">
+          <RouterLink to="/blog" @click="menuOpen = false">Blog</RouterLink>
+      </nav>
   </header>
 </template>
 
 <script setup>
+const route = useRoute()
 const header = useTemplateRef('header')
 const scrolled = ref(false)
+const menuOpen = ref(false)
 let headerHeight = 0
 
 function onScroll() {
@@ -33,7 +44,8 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
 <style scoped>
 header {
     --scale: 1.5;
-    @apply my-8 md:my-0 flex items-center p-8 justify-between sticky top-0 z-10;
+    @apply md:my-0 flex items-center p-8 justify-between sticky top-0 z-10;
+    /*@apply my-0 md:my-8;*/
     &.scrolled {
         --scale: 1;
         background: var(--color-white);
@@ -47,8 +59,34 @@ header {
         }
     }
 }
+.hamburger {
+    @apply relative w-8 h-6 bg-transparent border-none cursor-pointer p-0;
+
+    span {
+        @apply block absolute left-0 w-full h-0.5 transition-all duration-300;
+        background: var(--color-black);
+
+        &:nth-child(1) { top: 0; }
+        &:nth-child(2) { top: 50%; transform: translateY(-50%); }
+        &:nth-child(3) { bottom: 0; }
+    }
+
+    &.open span {
+        &:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
+        &:nth-child(2) { opacity: 0; }
+        &:nth-child(3) { bottom: 50%; transform: translateY(50%) rotate(-45deg); }
+    }
+}
 nav {
-    @apply flex flex-row gap-2;
+    @apply hidden md:flex flex-row gap-2;
+
+    &.open {
+        @apply flex flex-col absolute left-0 right-0 p-4 gap-0;
+        top: 100%;
+        background: var(--color-white);
+        box-shadow: 0 4px 10px rgba(0 0 0 / 0.1);
+    }
+
     a {
         @apply p-4 uppercase text-sm font-bold text-gray-700 hover:text-gray-900 relative !cursor-pointer;
 
@@ -71,7 +109,7 @@ nav {
     transform-origin: left center;
 }
 i {
-    @apply w-[50px] h-[50px];
+    @apply w-[50px] h-[50px] transition-colors duration-1000 ease-in-out;
     &[c] {
         border-radius: 50px 0 0 50px;
         background-color: var(--color-orange);
